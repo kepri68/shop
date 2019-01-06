@@ -18,7 +18,7 @@ public class OrdersService {
     private UserContextService userContextService;
 
     @Autowired
-    private OrdersReporitory ordersReporitory;
+    private OrdersRepository ordersRepository;
 
     @Autowired
     private UsersRepository<Customer> usersRepository;
@@ -34,9 +34,12 @@ public class OrdersService {
         String loggedUserEmail = userContextService.getLoggedUserEmail();
         Customer customer = usersRepository.findByUsername(loggedUserEmail).get();
 
-        cart.getOrderLines().stream().peek(p -> p.getProduct().setStockAmount(p.getProduct().getStockAmount() - p.getQuantity())).map(e->e.getProduct()).forEach(productRepository::save);
+        cart.getOrderLines()
+                .stream()
+                .peek(p -> p.getProduct().setStockAmount(p.getProduct().getStockAmount() - p.getQuantity()))
+                .map(e->e.getProduct()).forEach(productRepository::save);
 
-        Order order = ordersReporitory.save(new Order(customer.getUsername(), cartService.calculateTotalCartPrice(cart), customer.getUserAddress(), customer.getUserAddress(), LocalDateTime.now(), cart.getOrderLines(), customer, OrderStatus.NEW));
+        Order order = ordersRepository.save(new Order(customer.getUsername(), cartService.calculateTotalCartPrice(cart), customer.getUserAddress(), customer.getUserAddress(), LocalDateTime.now(), cart.getOrderLines(), customer, OrderStatus.NEW));
         userContextService.clearCart();
         return order;
     }

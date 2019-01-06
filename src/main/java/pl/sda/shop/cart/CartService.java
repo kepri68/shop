@@ -8,7 +8,11 @@ import java.math.BigDecimal;
 public class CartService {
 
     public BigDecimal calculateTotalCartPrice(Cart cart) {
-        BigDecimal productsPrice = cart.getOrderLines().stream().map(e -> e.getProductPrice().multiply(BigDecimal.valueOf(e.getQuantity()))).reduce((a, b) -> a.add(b)).orElse(BigDecimal.ZERO);
+        BigDecimal productsPrice = cart.getOrderLines()
+                .stream()
+                .map(e -> e.getProductPrice()
+                        .multiply(BigDecimal.valueOf(e.getQuantity()))).reduce((a, b) -> a.add(b))
+                .orElse(BigDecimal.ZERO);
         return productsPrice.add(calculateDelivery(cart,productsPrice));
     }
 

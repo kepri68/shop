@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ProductType {
 
-    BOOK("książka",false), PRESS("prasa",false), EBOOK("ebook",true);
+    BOOK("książka", false), PRESS("prasa", false), EBOOK("ebook", true);
 
     private String type;
     private boolean electronic;

@@ -29,14 +29,21 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
         if (checkSize() != 0) {
             return;
         }
-        List<Category> categories = MockedCategoriesSource.getInstance().getMockedCategories().stream().sorted(Comparator.comparingLong(e -> e.getId())).collect(toList());
+        List<Category> categories = MockedCategoriesSource.getInstance().getMockedCategories()
+                .stream()
+                .sorted(Comparator.comparingLong(e -> e.getId()))
+                .collect(toList());
         for (Category category : categories) {
             Long temp = category.getId();
             Category saved = save(category);
             if (saved.getParentId() == null) {
                 continue;
             }
-            List<Category> categoryStream = categories.stream().filter(e -> e.getParentId() != null).filter(e -> temp.equals(Long.valueOf(e.getParentId()))).collect(toList());
+            List<Category> categoryStream = categories
+                    .stream()
+                    .filter(e -> e.getParentId() != null)
+                    .filter(e -> temp.equals(Long.valueOf(e.getParentId())))
+                    .collect(toList());
             categoryStream.forEach(e -> e.setParentId(saved.getId()));
         }
     }

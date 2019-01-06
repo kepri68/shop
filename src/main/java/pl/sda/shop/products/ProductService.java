@@ -62,7 +62,11 @@ public class ProductService {
     }
 
     public List<ProductDTO> findProductsForCustomer(String query, String productType) {
-        return findProducts(query, productType).stream().filter(e -> ObjectUtils.defaultIfNull(e.getStockAmount(), 0) > 0).map(productToProductDTOBuilder::buildDto).collect(Collectors.toList());
+        return findProducts(query, productType)
+                .stream()
+                .filter(e -> ObjectUtils.defaultIfNull(e.getStockAmount(), 0) > 0)
+                .map(productToProductDTOBuilder::buildDto)
+                .collect(Collectors.toList());
     }
 
     private List<Product> findProducts(String query, String productType) {
@@ -85,7 +89,10 @@ public class ProductService {
     public DataTablesResponse<ProductDTO> getProductDataTable(Integer start, Integer length, String sortColumn, String sortOrder, String searchText) {
         DataTablesResponse<ProductDTO> dtResponse = new DataTablesResponse<>();
         Page<Product> booksByName = findProductsByName(searchText, start == 0 ? 0 : (start / length), length, getSort(sortColumn, sortOrder));
-        dtResponse.setData(booksByName.getContent().stream().map(productToProductDTOBuilder::buildDto).collect(Collectors.toList()));
+        dtResponse.setData(booksByName.getContent()
+                .stream()
+                .map(productToProductDTOBuilder::buildDto)
+                .collect(Collectors.toList()));
         dtResponse.setRecordsTotal((int) booksByName.getTotalElements());
         dtResponse.setRecordsFiltered((int) booksByName.getTotalElements());
         return dtResponse;

@@ -12,7 +12,7 @@ public class OrdersController {
     private OrdersService ordersService;
 
     @RequestMapping(value = "/placeOrder")
-    public String makeAnOrder(Model  model) {
+    public String makeAnOrder(Model model) {
         model.addAttribute("order", ordersService.placeOrder());
         return "orderFinished";
     }

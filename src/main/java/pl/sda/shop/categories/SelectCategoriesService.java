@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toMap;
 @Service
 @Primary
 //@Profile("select")
-public class SelectCategoriesService extends CategoriesService{
+public class SelectCategoriesService extends CategoriesService {
 
     @Autowired
     public SelectCategoriesService(CategoryRepository categoryRepository) {

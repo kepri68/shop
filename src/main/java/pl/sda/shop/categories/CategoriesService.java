@@ -60,6 +60,6 @@ public abstract class CategoriesService {
     }
 
     public void addCategory(String catName, Long parentId) {
-        categoryRepository.save(new Category(parentId==0?null:parentId, catName));
+        categoryRepository.save(new Category(parentId == 0 ? null : parentId, catName));
     }
 }
